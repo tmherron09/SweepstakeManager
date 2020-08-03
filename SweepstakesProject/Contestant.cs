@@ -6,7 +6,61 @@ using System.Threading.Tasks;
 
 namespace SweepstakesProject
 {
-    class Contestant
+    public class Contestant
     {
+        public string FirstName
+        {
+            get
+            {
+                return FirstName;
+            }
+            set
+            {
+                // Todo add a validation check.
+                FirstName = value;
+            }
+        }
+        public string LastName
+        {
+            get
+            {
+                return FirstName;
+            }
+            set
+            {
+                // Todo add a validation check.
+                FirstName = value;
+            }
+        }
+        public string EmailAddress { get; set; }  //TODO: Look into Regex validation
+        public int RegistrationNumber { get; private set; }
+
+        //  Placeholder
+        public Contestant()
+        {
+            throw new NotSupportedException("Contestant UI frontend not implemented currently.");
+            RegisterContestant();
+            GenerateRegistrationNumber();
+        }
+
+        public Contestant(string firstName, string lastName, string emailAddress, int registrationNumer)
+        {
+            FirstName = firstName;
+            lastName = LastName;
+            EmailAddress = emailAddress;
+            RegistrationNumber = registrationNumer;  // MVP- generation/validation post 
+        }
+
+
+
+        private void GenerateRegistrationNumber()
+        {
+            throw new NotImplementedException("Contestant UI frontend not implemented currently.");
+        }
+
+        public void RegisterContestant()
+        {
+            throw new NotImplementedException("Contestant UI frontend not implemented currently.");
+        }
     }
 }
