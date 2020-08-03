@@ -51,7 +51,7 @@ namespace SweepstakesProject
                 case "v":
                 case "view current sweepstakes":
                 case "1":
-                    // View Current Sweepstakes
+                    marketingFirm.SweepstakesEmployeeMenu();
                     Menu();
                     break;
                 case "n":

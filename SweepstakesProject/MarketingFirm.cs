@@ -54,7 +54,14 @@ namespace SweepstakesProject
         }
         public void SweepstakesEmployeeMenu()
         {
+            if (_manager.GetSweepstakes() != null)
+            {
+                UI.DisplayText("No Sweepstakes avilable. Please return to main menu and Create new Sweepstakes.\nPress any key...");
+                Console.ReadKey();
+                return;
+            }
             Sweepstakes currentSweepstakes = _manager.GetSweepstakes();
+            UI.DisplayText($"Current Sweepstakes: {currentSweepstakes.Name}");
             string prompt = "Please select an option:\n1) [R]egister New Contestant\n2) [D]isplay Contestant Info\n3) [E]nd Sweepstakes \n4) Return to [M]ain Menu";
             string input = UI.GetInputFor(prompt);
             switch (input.ToLower())
@@ -72,8 +79,7 @@ namespace SweepstakesProject
                     SweepstakesEmployeeMenu();
                     break;
                 case "3":
-                    Contestant winner = currentSweepstakes.PickWinner();
-                    //
+                    _manager.EndSweepstakes();
                     break;
                 case "m":
                 case "return to main menu":
