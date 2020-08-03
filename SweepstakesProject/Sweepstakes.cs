@@ -11,10 +11,25 @@ namespace SweepstakesProject
         /// <summary>
         /// Dictionary containing all Registered Contestants.
         /// </summary>
-        /// <remarks></remarks>
+        /// <remarks><c>Dictionary&lt;Contestant Registration Number, Contestant Info&gt;</c></remarks>
         Dictionary<int, Contestant> contestants;
         private string name;
-        public string Name { get; set; }
+        public string Name { 
+            get
+            {
+                return name;
+            }
+            private set
+            {
+                name = value;
+            }
+        }
+        public int NextRegistrationNumber {
+            get
+            {
+                return contestants.Count + 1;
+            }
+        }
         /// <summary>
         /// Constructor for Sweepstakes.
         /// </summary>
@@ -22,6 +37,7 @@ namespace SweepstakesProject
         public Sweepstakes(string name)
         {
             this.name = name;
+            contestants = new Dictionary<int, Contestant>();
         }
 
         public void RegisterContestant(Contestant contestant)
@@ -41,7 +57,7 @@ namespace SweepstakesProject
         {
             // Send call to a physical printer.
             // Send call to UI.DisplayContestantInfo()
-            UI.DisplayContestantInfo(contestant);
+            //UI.DisplayContestantInfo(contestant);
 
         }
             
