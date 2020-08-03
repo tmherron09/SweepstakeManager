@@ -14,7 +14,7 @@ namespace SweepstakesProject
         /// </summary>
         /// <remarks><c>Dictionary&lt;Contestant Registration Number, Contestant Info&gt;</c></remarks>
         Dictionary<int, Contestant> contestants;
-        public List<ISweepstakesSubscriber> contestSubscribers;
+        public List<ISweepstakesSubscriber> sweepstakesSubscribers;
         private string name;
         public string Name
         {
@@ -50,7 +50,7 @@ namespace SweepstakesProject
         public void RegisterContestant(Contestant contestant)
         {
             contestants.Add(contestant.RegistrationNumber, contestant);
-            // Throws exception if same contestant is entered twice.
+            sweepstakesSubscribers.Add(contestant);
         }
         public Contestant PickWinner()
         {
@@ -95,11 +95,11 @@ namespace SweepstakesProject
         }
         public void Subscribe(ISweepstakesSubscriber contestSubscriber)
         {
-            contestSubscribers.Add(contestSubscriber);
+            sweepstakesSubscribers.Add(contestSubscriber);
         }
         private void NotifyContestSubscribers(Contestant winner)
         {
-            foreach(ISweepstakesSubscriber subscriber in contestSubscribers)
+            foreach(ISweepstakesSubscriber subscriber in sweepstakesSubscribers)
             {
                 if(subscriber != winner)
                 {

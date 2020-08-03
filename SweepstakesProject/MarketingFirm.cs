@@ -49,6 +49,7 @@ namespace SweepstakesProject
 
             Sweepstakes sweepstakes = new Sweepstakes(sweepstakesName);
             _manager.InsertSweepstakes(sweepstakes);
+            sweepstakes.sweepstakesSubscribers.Add(this);
             UI.DisplayText($"New Sweepstakes {sweepstakes.Name} has been successfully added!");
         
         }
