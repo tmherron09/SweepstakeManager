@@ -63,25 +63,29 @@ namespace SweepstakesProject
             // One Time Campaign- SweepstakesStackManager
             // Annual Campaign- SweepstakesQueueManager
             // Set simulation markingFirm to new marketing firm from factory.
-            marketingFirm = new MarketingFirm(); // DI ISweepstakesManager
+            ISweepstakeManager sweepstakeManager = CreateSweepstakesManager(UI.GetInputFor("Please Select a Sweepstakes Campaign Type:\n1) One-Time\n2)"));
+            marketingFirm = new MarketingFirm(sweepstakeManager); // DI ISweepstakesManager
 
         }
 
 
-        public ISweepstakeManager CreateSweepstakesManager(string campaign)
+        public ISweepstakeManager CreateSweepstakesManager(string campaignType)
         {
             ISweepstakeManager sweepstakeManager;
-
-            switch (campaign)
+            
+            switch (campaignType.ToLower())
             {
+                case "1":
                 case "annual":
                     sweepstakeManager = new SweepstakesStackManager();
                     break;
+                case "2":
                 case "promotion":
                     sweepstakeManager = new SweepstakesQueueManager();
                     break;
                 default:
-                    throw new Exception("Campaign type/Sweepstakes Manager type not found");
+                    return CreateSweepstakesManager(UI.GetInputFor("Invalid Selection\nPlease Select a Sweepstakes Campaign Type:\n1) One-Time\n2)"));
+                    break;
             }
             return sweepstakeManager;
         }

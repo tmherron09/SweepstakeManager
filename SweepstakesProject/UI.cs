@@ -8,5 +8,14 @@ namespace SweepstakesProject
 {
     public static class UI
     {
+        public static string GetInputFor(string prompt)
+        {
+            Console.WriteLine(prompt);
+
+            return Console.ReadLine();
+
+        }
+
+
     }
 }
