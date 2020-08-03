@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SweepstakesProject
 {
-    public class Contestant
+    public class Contestant : ISweepstakesSubscriber
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -39,6 +39,11 @@ namespace SweepstakesProject
         public void RegisterContestant()
         {
             throw new NotImplementedException("Contestant UI frontend not implemented currently.");
+        }
+
+        public void Notify(string sweepstakesName, Contestant winner)
+        {
+            throw new NotImplementedException();
         }
     }
 }

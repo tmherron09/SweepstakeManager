@@ -14,6 +14,7 @@ namespace SweepstakesProject
         /// </summary>
         /// <remarks><c>Dictionary&lt;Contestant Registration Number, Contestant Info&gt;</c></remarks>
         Dictionary<int, Contestant> contestants;
+        public List<ISweepstakesSubscriber> contestSubscribers;
         private string name;
         public string Name
         {
@@ -26,6 +27,9 @@ namespace SweepstakesProject
                 name = value;
             }
         }
+        /// <summary>
+        /// Value of next available Registration Number for a creating a contestant.
+        /// </summary>
         public int NextRegistrationNumber
         {
             get
@@ -68,8 +72,7 @@ namespace SweepstakesProject
         {
             PrintContestantInfo(winner);
             UI.DisplayText($"Congratulations to {winner.FirstName} {winner.LastName}!");
-            // Emaill all contestants (minus winner)
-            // Email Winner special winning email.
+            NotifyContestSubscribers(winner);
         }
         public void PrintContestantInfo(Contestant contestant)
         {
@@ -88,6 +91,20 @@ namespace SweepstakesProject
             foreach (Contestant contestant in contestants.Values)
             {
                 yield return contestant;
+            }
+        }
+        public void Subscribe(ISweepstakesSubscriber contestSubscriber)
+        {
+            contestSubscribers.Add(contestSubscriber);
+        }
+        private void NotifyContestSubscribers(Contestant winner)
+        {
+            foreach(ISweepstakesSubscriber subscriber in contestSubscribers)
+            {
+                if(subscriber != winner)
+                {
+                    subscriber.Notify(Name, winner);
+                }
             }
         }
     }

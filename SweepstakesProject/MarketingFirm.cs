@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SweepstakesProject
 {
-    public class MarketingFirm
+    public class MarketingFirm : ISweepstakesSubscriber
     {
         /// <summary>
         /// Marketing Manager using Dependency Injection of the ISweepstakesManager interface.
@@ -111,6 +111,10 @@ namespace SweepstakesProject
             }
         }
 
-
+        public void Notify(string sweepstakesName, Contestant winner)
+        {
+            throw new NotImplementedException();
+            // Send special email to Winner
+        }
     }
 }
