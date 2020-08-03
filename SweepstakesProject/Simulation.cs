@@ -46,14 +46,14 @@ namespace SweepstakesProject
         {
             string prompt = "Please select an option:\n1) [V]iew Current Sweepstakes\n2) Add [N]ew Sweepstakes\n3) Exit Program";
             string input = UI.GetInputFor(prompt);
-            switch(input)
+            switch (input)
             {
                 case "1":
                     // View Current Sweepstakes
                     Menu();
                     break;
                 case "2":
-                    marketingFirm.CreateSweepstakes();
+                    CreateNewCampaign();
                     Menu();
                     break;
                 case "3":
@@ -68,10 +68,10 @@ namespace SweepstakesProject
 
         private void CreateNewCampaign()
         {
-            while(UI.GetInputYesNo("Would you like to add a Sweepstakes to your campaign?"))
+            do
             {
                 marketingFirm.CreateSweepstakes();
-            }
+            } while (UI.GetInputYesNo("Would you like to add a another Sweepstakes to your campaign?"));
         }
 
         public void CreateMarketingFirmWithManager()
@@ -85,7 +85,7 @@ namespace SweepstakesProject
         public ISweepstakeManager CreateSweepstakesManager(string campaignType)
         {
             ISweepstakeManager sweepstakeManager;
-            
+
             switch (campaignType.ToLower())
             {
                 case "1":
