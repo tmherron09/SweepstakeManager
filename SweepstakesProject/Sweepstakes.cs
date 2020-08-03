@@ -45,12 +45,13 @@ namespace SweepstakesProject
         {
             this.name = name;
             contestants = new Dictionary<int, Contestant>();
+            sweepstakesSubscribers = new List<ISweepstakesSubscriber>();
         }
 
         public void RegisterContestant(Contestant contestant)
         {
             contestants.Add(contestant.RegistrationNumber, contestant);
-            sweepstakesSubscribers.Add(contestant);
+            Subscribe(contestant);
         }
         public Contestant PickWinner()
         {

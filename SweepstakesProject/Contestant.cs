@@ -43,7 +43,10 @@ namespace SweepstakesProject
 
         public void Notify(string sweepstakesName, Contestant winner)
         {
-            throw new NotImplementedException();
+            Console.BackgroundColor = ConsoleColor.DarkYellow;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.WriteLine($"{FirstName} has been notified that {winner.FirstName} won the {sweepstakesName} Sweepstakes!");
+            Console.ResetColor();
         }
     }
 }

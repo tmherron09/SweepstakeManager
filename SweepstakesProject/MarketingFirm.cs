@@ -49,13 +49,13 @@ namespace SweepstakesProject
 
             Sweepstakes sweepstakes = new Sweepstakes(sweepstakesName);
             _manager.InsertSweepstakes(sweepstakes);
-            sweepstakes.sweepstakesSubscribers.Add(this);
+            sweepstakes.Subscribe(this);
             UI.DisplayText($"New Sweepstakes {sweepstakes.Name} has been successfully added!");
         
         }
         public void SweepstakesEmployeeMenu()
         {
-            if (_manager.GetSweepstakes() != null)
+            if (_manager.GetSweepstakes() == null)
             {
                 UI.DisplayText("No Sweepstakes avilable. Please return to main menu and Create new Sweepstakes.\nPress any key...");
                 Console.ReadKey();
@@ -114,8 +114,11 @@ namespace SweepstakesProject
 
         public void Notify(string sweepstakesName, Contestant winner)
         {
-            throw new NotImplementedException();
-            // Send special email to Winner
+            // Send special email to Winner!
+            Console.BackgroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.WriteLine($"Congratulations {winner.FirstName} {winner.LastName}!!! You are the big winner of our {sweepstakesName} Sweepstakes!\n To Claim your prize please contact us ASAP!");
+            Console.ResetColor();
         }
     }
 }
