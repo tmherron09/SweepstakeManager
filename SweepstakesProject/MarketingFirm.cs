@@ -11,7 +11,7 @@ namespace SweepstakesProject
         /// <summary>
         /// Marketing Manager using Dependency Injection of the ISweepstakesManager interface.
         /// </summary>
-        ISweepstakeManager _manager;
+        public ISweepstakeManager _manager;
         /// <summary>
         /// Name of Marketing Firm. *If provided.
         /// </summary>
@@ -63,12 +63,13 @@ namespace SweepstakesProject
                 case "register new contestant":
                 case "1":
                     RegisterNewContestant(currentSweepstakes);
+                    SweepstakesEmployeeMenu();
                     break;
                 case "d":
                 case "display contestant info":
                 case "2":
-                    
-                    // currentSweepstakes.PrintContestantInfo()
+                    PrintAllContestantInfo();
+                    SweepstakesEmployeeMenu();
                     break;
                 case "3":
                     Contestant winner = currentSweepstakes.PickWinner();
@@ -88,7 +89,7 @@ namespace SweepstakesProject
         private void RegisterNewContestant(Sweepstakes currentSweepstakes)
         {
             string firstName = UI.GetInputFor("Please enter contestant's first name:");
-            string lastName = UI.GetInputFor("Please enter contestant's first last:");
+            string lastName = UI.GetInputFor("Please enter contestant's last name:");
             string emailAddress = UI.GetInputFor("Please enter contestant's email address:");
             Contestant registrant = new Contestant(firstName, lastName, emailAddress, currentSweepstakes.NextRegistrationNumber);
             currentSweepstakes.RegisterContestant(registrant);
@@ -102,8 +103,6 @@ namespace SweepstakesProject
                 _manager.GetSweepstakes().PrintContestantInfo(contestant);
 
             }
-
-
         }
 
 

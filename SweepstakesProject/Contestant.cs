@@ -8,30 +8,8 @@ namespace SweepstakesProject
 {
     public class Contestant
     {
-        public string FirstName
-        {
-            get
-            {
-                return FirstName;
-            }
-            set
-            {
-                // Todo add a validation check.
-                FirstName = value;
-            }
-        }
-        public string LastName
-        {
-            get
-            {
-                return FirstName;
-            }
-            set
-            {
-                // Todo add a validation check.
-                FirstName = value;
-            }
-        }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string EmailAddress { get; set; }  //TODO: Look into Regex validation
         public int RegistrationNumber { get; private set; }
 
@@ -46,7 +24,7 @@ namespace SweepstakesProject
         public Contestant(string firstName, string lastName, string emailAddress, int registrationNumer)
         {
             FirstName = firstName;
-            lastName = LastName;
+            LastName = lastName;
             EmailAddress = emailAddress;
             RegistrationNumber = registrationNumer;  // MVP- generation/validation post 
         }

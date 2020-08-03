@@ -56,10 +56,14 @@ namespace SweepstakesProject
         }
         public void PrintContestantInfo(Contestant contestant)
         {
-            // Send call to a physical printer.
-            // Send call to UI.DisplayContestantInfo()
-            //UI.DisplayContestantInfo(contestant);
-
+            StringBuilder sb = new StringBuilder();
+            sb.Append(new string('▒', Console.BufferWidth));
+            sb.AppendLine($"Contestant Info\nRegistration #{contestant.RegistrationNumber}");
+            sb.AppendLine($"Last Name: {contestant.LastName}");
+            sb.AppendLine($"First Name: {contestant.FirstName}");
+            sb.AppendLine($"Email Address: {contestant.EmailAddress}");
+            sb.Append(new string('▒', Console.BufferWidth));
+            UI.DisplayText(sb.ToString());
         }
 
         public IEnumerator GetEnumerator()
