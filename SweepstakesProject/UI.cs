@@ -16,6 +16,28 @@ namespace SweepstakesProject
 
         }
 
+        public static bool GetInputYesNo(string prompt)
+        {
+            Console.WriteLine(prompt);
+            string input = UI.GetInputFor("(y/n)").ToLower();
+            if( input == "y" || input == "yes")
+            {
+                return true;
+            }
+            else if (input == "n" || input == "no")
+            {
+                return false;
+            }
+            else
+            {
+                return UI.GetInputYesNo(prompt);
+            }
+        }
+
+        public static void DisplayText(string text)
+        {
+            Console.WriteLine(text);
+        }
 
     }
 }

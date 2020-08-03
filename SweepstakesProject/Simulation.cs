@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,37 +33,49 @@ namespace SweepstakesProject
 
         private void Run()
         {
-            bool isRunning = true;
 
             CreateMarketingFirmWithManager();
 
             CreateNewCampaign();  // Loops markertingFirm.CreateSweepstake()
 
-            while (isRunning)
-            {
-                // Ask user if they would like to create a new sweepstakes for their campaign.
-                // Or if they would like to view the current sweepstakes.
-                // Or Quit the Program.
-                // Put switch statement here
-                // marketingFirm.CreateSweepstake()
-                // marketingFirm.CurrentSweepstakesInfo();
+            Menu();
 
+        }
+
+        private void Menu()
+        {
+            string prompt = "Please select an option:\n1) [V]iew Current Sweepstakes\n2) Add [N]ew Sweepstakes\n3) Exit Program";
+            string input = UI.GetInputFor(prompt);
+            switch(input)
+            {
+                case "1":
+                    // View Current Sweepstakes
+                    Menu();
+                    break;
+                case "2":
+                    marketingFirm.CreateSweepstakes();
+                    Menu();
+                    break;
+                case "3":
+                    UI.DisplayText("Thank you and have a pleasant day.");
+                    break;
+                default:
+                    UI.DisplayText("Invalid Selection.");
+                    Menu();
+                    break;
             }
         }
 
         private void CreateNewCampaign()
         {
-            throw new NotImplementedException();
+            while(UI.GetInputYesNo("Would you like to add a Sweepstakes to your campaign?"))
+            {
+                marketingFirm.CreateSweepstakes();
+            }
         }
 
         public void CreateMarketingFirmWithManager()
         {
-            // Request Name
-            // UI.GetInput();
-            // Ask what type of Campaign they would like to start
-            // One Time Campaign- SweepstakesStackManager
-            // Annual Campaign- SweepstakesQueueManager
-            // Set simulation markingFirm to new marketing firm from factory.
             ISweepstakeManager sweepstakeManager = CreateSweepstakesManager(UI.GetInputFor("Please Select a Sweepstakes Campaign Type:\n1) One-Time\n2)"));
             marketingFirm = new MarketingFirm(sweepstakeManager); // DI ISweepstakesManager
 
@@ -80,12 +93,12 @@ namespace SweepstakesProject
                     sweepstakeManager = new SweepstakesStackManager();
                     break;
                 case "2":
+                case "promo":
                 case "promotion":
                     sweepstakeManager = new SweepstakesQueueManager();
                     break;
                 default:
                     return CreateSweepstakesManager(UI.GetInputFor("Invalid Selection\nPlease Select a Sweepstakes Campaign Type:\n1) One-Time\n2)"));
-                    break;
             }
             return sweepstakeManager;
         }
