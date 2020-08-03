@@ -15,7 +15,8 @@ namespace SweepstakesProject
         /// <remarks><c>Dictionary&lt;Contestant Registration Number, Contestant Info&gt;</c></remarks>
         Dictionary<int, Contestant> contestants;
         private string name;
-        public string Name { 
+        public string Name
+        {
             get
             {
                 return name;
@@ -25,7 +26,8 @@ namespace SweepstakesProject
                 name = value;
             }
         }
-        public int NextRegistrationNumber {
+        public int NextRegistrationNumber
+        {
             get
             {
                 return contestants.Count + 1;
@@ -48,11 +50,26 @@ namespace SweepstakesProject
         }
         public Contestant PickWinner()
         {
-            //Add Logic to pick a winner.
+            Random rng = new Random(DateTime.Now.Second);
 
-            contestants.TryGetValue(1, out Contestant winner);
-            // Placeholder returns first Contestant.
+            int winningRegistrationNumber;
+            do
+            {
+                winningRegistrationNumber = rng.Next(1, contestants.Count * 10_000) % contestants.Count;
+
+            } while (!contestants.ContainsKey(winningRegistrationNumber));
+            Contestant winner = contestants[winningRegistrationNumber];
+
+            AnnounceWinner(winner);
+
             return winner;
+        }
+        public void AnnounceWinner(Contestant winner)
+        {
+            PrintContestantInfo(winner);
+            UI.DisplayText($"Congratulations to {winner.FirstName} {winner.LastName}!");
+            // Emaill all contestants (minus winner)
+            // Email Winner special winning email.
         }
         public void PrintContestantInfo(Contestant contestant)
         {
@@ -68,7 +85,7 @@ namespace SweepstakesProject
 
         public IEnumerator GetEnumerator()
         {
-            foreach(Contestant contestant in contestants.Values)
+            foreach (Contestant contestant in contestants.Values)
             {
                 yield return contestant;
             }
