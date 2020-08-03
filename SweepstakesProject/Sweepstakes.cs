@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SweepstakesProject
 {
-    public class Sweepstakes
+    public class Sweepstakes : IEnumerable
     {
         /// <summary>
         /// Dictionary containing all Registered Contestants.
@@ -60,6 +61,13 @@ namespace SweepstakesProject
             //UI.DisplayContestantInfo(contestant);
 
         }
-            
+
+        public IEnumerator GetEnumerator()
+        {
+            foreach(Contestant contestant in contestants.Values)
+            {
+                yield return contestant;
+            }
+        }
     }
 }
