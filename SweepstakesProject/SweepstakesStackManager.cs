@@ -37,10 +37,11 @@ namespace SweepstakesProject
         /// <summary>
         /// Ends the current Sweepstakes found at the top of the stack and removes it.
         /// </summary>
-        public void EndSweepstakes()
+        public Contestant EndSweepstakes()
         {
-            throw new NotImplementedException("Ending a campaign is not implemented.");
-            Sweepstakes sweepstakes = stack.Pop();
+            Contestant winner = GetSweepstakes().PickWinner();
+            stack.Pop();
+            return winner;
         }
     }
 }

@@ -36,12 +36,13 @@ namespace SweepstakesProject
             return queue.Peek();
         }
         /// <summary>
-        /// Ends the current sweepstakes and removes from Queue.
+        /// Ends the current sweepstakes and removes from Queue. Returns winner of the Sweepstakes.
         /// </summary>
-        public void EndSweepstakes()
+        public Contestant EndSweepstakes()
         {
-            throw new NotImplementedException();
-            Sweepstakes sweepstakes = queue.Dequeue();
+            Contestant winner = GetSweepstakes().PickWinner();
+            queue.Dequeue();
+            return winner;
         }
 
     }

@@ -22,7 +22,7 @@ namespace SweepstakesProject
         /// <summary>
         /// Method to end a sweepstakes. Removes Sweepstakes from SweepstakesManager Collection and calls methods needed to complete a sweepstakes.
         /// </summary>
-        void EndSweepstakes();
+        Contestant EndSweepstakes();
 
     }
 }
