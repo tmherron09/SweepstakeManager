@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace SweepstakesProject
 {
+    /// <summary>
+    /// Class Representation of a Marketing Firm holding a Sweepstakes Campaign. Marketing Firms all have a Sweepstakes Manager taking care of underlying Sweepstakes collections. Marketing Firm Employees have access the Employee Only Menu for registering new Contestants, Displaying Contestant Information, and Ending Sweepstakes to call methods to Pick and Announce a winner.
+    /// </summary>
+    [Serializable]
     public class MarketingFirm : ISweepstakesSubscriber
     {
         /// <summary>
@@ -15,25 +20,30 @@ namespace SweepstakesProject
         /// <summary>
         /// Name of Marketing Firm. *If provided.
         /// </summary>
-        public string marketingFirmName { get; set; }
+        public string MarketingFirmName { get; set; }
         /// <summary>
         /// Name of campaign (Collection of Sweepstakes.) *If provided.
         /// </summary>
-        public string campaignName { get; set; }
+        public string CampaignName { get; set; }
         /// <summary>
         /// Constructs a new Marketing Firm using Dependency Injection. The Marketing firm does not need to know the underlying structure of the Sweepstakes manager, rather that all Marketing Firms can use Sweepstakes managers in the same manner.
         /// </summary>
-        /// <param name="sweepstakeManager"></param>
+        /// <param name="sweepstakeManager">SweepstakesManager implementing ISweepstakesManager</param>
         public MarketingFirm(ISweepstakeManager sweepstakeManager)
         {
             _manager = sweepstakeManager;
         }
-        // TODO if implementing current campaign structure.
-        public MarketingFirm(ISweepstakeManager sweepstakeManager, string markeringFirmName,  string campaignName)
+        /// <summary>
+        /// Additonal Constructor for providing a Company name and a Campaign name. (Campaign refers to the ISweepstakesManager underlying collection of Sweepstakes.
+        /// </summary>
+        /// <param name="sweepstakeManager">SweepstakesManager implementing ISweepstakesManager</param>
+        /// <param name="marketingFirmName">Name of Marketing Firm</param>
+        /// <param name="campaignName">Name of Current Sweepstakes Campaign.</param>
+        public MarketingFirm(ISweepstakeManager sweepstakeManager, string marketingFirmName,  string campaignName)
         {
             _manager = sweepstakeManager;
-            this.marketingFirmName = marketingFirmName;
-            this.campaignName = campaignName;
+            this.MarketingFirmName = marketingFirmName;
+            this.CampaignName = campaignName;
         }
         /// <summary>
         /// Creates and inserts a new Sweepstakes into the Sweepstakes manager's underlying data structure.
@@ -51,8 +61,10 @@ namespace SweepstakesProject
             _manager.InsertSweepstakes(sweepstakes);
             sweepstakes.Subscribe(this);
             UI.DisplayText($"New Sweepstakes {sweepstakes.Name} has been successfully added!");
-        
         }
+        /// <summary>
+        /// Displays the Employee Menu interface for directly interacting with Sweepstakes.
+        /// </summary>
         public void SweepstakesEmployeeMenu()
         {
             if (_manager.GetSweepstakes() == null)
@@ -92,7 +104,10 @@ namespace SweepstakesProject
                     break;
             }
         }
-
+        /// <summary>
+        /// Registers a new contestant in the current Sweepstakes.
+        /// </summary>
+        /// <param name="currentSweepstakes">Sweepstakes to register Contestant into.</param>
         private void RegisterNewContestant(Sweepstakes currentSweepstakes)
         {
             string firstName = UI.GetInputFor("Please enter contestant's first name:");
@@ -100,9 +115,10 @@ namespace SweepstakesProject
             string emailAddress = UI.GetInputFor("Please enter contestant's email address:");
             Contestant registrant = new Contestant(firstName, lastName, emailAddress, currentSweepstakes.NextRegistrationNumber);
             currentSweepstakes.RegisterContestant(registrant);
-            // Have registrant subscribe to Marketing firm to recieve email blast via IObserver pattern.
-
         }
+        /// <summary>
+        /// Calls the current Sweepstakes and runs the PrintContestantInfo of each Contestant.
+        /// </summary>
         private void PrintAllContestantInfo()
         {
             foreach(Contestant contestant in _manager.GetSweepstakes())
@@ -111,7 +127,11 @@ namespace SweepstakesProject
 
             }
         }
-
+        /// <summary>
+        /// Called from a Sweepstakes once a winner has been picked. Notifys Marketing Firm to contact the Winner directly.
+        /// </summary>
+        /// <param name="sweepstakesName">Name of Sweepstakes that has Ended.</param>
+        /// <param name="winner">Winner of Sweepstakes</param>
         public void Notify(string sweepstakesName, Contestant winner)
         {
             // Send special email to Winner!

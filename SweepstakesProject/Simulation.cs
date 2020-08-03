@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Configuration;
+using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace SweepstakesProject
 {
     public class Simulation
     {
         MarketingFirm marketingFirm;
-        Sweepstakes sweepstakes;
-
         public Simulation()
         {
 
@@ -33,18 +33,19 @@ namespace SweepstakesProject
 
         private void Run()
         {
+            marketingFirm = LoadMarketingFirm();
 
             CreateMarketingFirmWithManager();
 
             CreateNewCampaign();  // Loops markertingFirm.CreateSweepstake()
-
+            
             Menu();
 
         }
 
         private void Menu()
         {
-            string prompt = "Please select an option:\n1) [V]iew Current Sweepstakes\n2) Add [N]ew Sweepstakes\n3) [E]xit Program";
+            string prompt = "Please select an option:\n1) [V]iew Current Sweepstakes\n2) Add [N]ew Sweepstakes\n3) [S]ave Marketing Firm data to file\n4) [E]xit Program";
             string input = UI.GetInputFor(prompt);
             switch (input.ToLower())
             {
@@ -60,9 +61,15 @@ namespace SweepstakesProject
                     CreateNewCampaign();
                     Menu();
                     break;
+                case "s":
+                case "save marketing firm data to file":
+                case "3":
+                    SaveMarketingFirm();
+                    Menu();
+                    break;
                 case "e":
                 case "exit program":
-                case "3":
+                case "4":
                     UI.DisplayText("Thank you and have a pleasant day.");
                     break;
                 default:
@@ -82,6 +89,8 @@ namespace SweepstakesProject
 
         public void CreateMarketingFirmWithManager()
         {
+            if (marketingFirm != null) return;
+
             ISweepstakeManager sweepstakeManager = CreateSweepstakesManager(UI.GetInputFor("Please Select a Sweepstakes Campaign Type:\n1) Annual\n2) Promotion"));
             marketingFirm = new MarketingFirm(sweepstakeManager); // DI ISweepstakesManager
 
@@ -108,6 +117,33 @@ namespace SweepstakesProject
             }
             return sweepstakeManager;
         }
+
+        public void SaveMarketingFirm()
+        {
+            string fileName = UI.GetInputFor("Please enter a file name (CAUTION NO VALIDATION IMPLEMENTED, USE LEGAL FILE NAMES ONLY)");
+            using (Stream stream = File.Open($"{fileName}.bin", FileMode.Create))
+            {
+                var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                binaryFormatter.Serialize(stream, marketingFirm);
+            }
+
+        }
+
+        public MarketingFirm LoadMarketingFirm()
+        {
+            if(!UI.GetInputYesNo("Do you have a previous Marketing Firm file you'd like to load?"))
+            {
+                return null;
+            }
+
+            string fileName = UI.GetInputFor("Please enter filename (without *.bin):");
+            using (Stream stream = File.Open($"{fileName}.bin", FileMode.Open))
+            {
+                var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                return (MarketingFirm)binaryFormatter.Deserialize(stream);
+            }
+        }
+
 
     }
 }
