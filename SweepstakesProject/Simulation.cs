@@ -44,18 +44,24 @@ namespace SweepstakesProject
 
         private void Menu()
         {
-            string prompt = "Please select an option:\n1) [V]iew Current Sweepstakes\n2) Add [N]ew Sweepstakes\n3) Exit Program";
+            string prompt = "Please select an option:\n1) [V]iew Current Sweepstakes\n2) Add [N]ew Sweepstakes\n3) [E]xit Program";
             string input = UI.GetInputFor(prompt);
-            switch (input)
+            switch (input.ToLower())
             {
+                case "v":
+                case "view current sweepstakes":
                 case "1":
                     // View Current Sweepstakes
                     Menu();
                     break;
+                case "n":
+                case "add new sweepstakes":
                 case "2":
                     CreateNewCampaign();
                     Menu();
                     break;
+                case "e":
+                case "exit program":
                 case "3":
                     UI.DisplayText("Thank you and have a pleasant day.");
                     break;
@@ -76,7 +82,7 @@ namespace SweepstakesProject
 
         public void CreateMarketingFirmWithManager()
         {
-            ISweepstakeManager sweepstakeManager = CreateSweepstakesManager(UI.GetInputFor("Please Select a Sweepstakes Campaign Type:\n1) One-Time\n2)"));
+            ISweepstakeManager sweepstakeManager = CreateSweepstakesManager(UI.GetInputFor("Please Select a Sweepstakes Campaign Type:\n1) Annual\n2) Promotion"));
             marketingFirm = new MarketingFirm(sweepstakeManager); // DI ISweepstakesManager
 
         }
@@ -90,12 +96,12 @@ namespace SweepstakesProject
             {
                 case "1":
                 case "annual":
-                    sweepstakeManager = new SweepstakesStackManager();
+                    sweepstakeManager = new SweepstakesQueueManager();
                     break;
                 case "2":
                 case "promo":
                 case "promotion":
-                    sweepstakeManager = new SweepstakesQueueManager();
+                    sweepstakeManager = new SweepstakesStackManager();
                     break;
                 default:
                     return CreateSweepstakesManager(UI.GetInputFor("Invalid Selection\nPlease Select a Sweepstakes Campaign Type:\n1) One-Time\n2)"));
