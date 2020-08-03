@@ -6,7 +6,46 @@ using System.Threading.Tasks;
 
 namespace SweepstakesProject
 {
-    class MarketingFirm
+    public class MarketingFirm
     {
+        /// <summary>
+        /// Marketing Manager using Dependency Injection of the ISweepstakesManager interface.
+        /// </summary>
+        ISweepstakeManager _manager;
+        /// <summary>
+        /// Name of Marketing Firm. *If provided.
+        /// </summary>
+        public string marketingFirmName { get; set; }
+        /// <summary>
+        /// Name of campaign (Collection of Sweepstakes.) *If provided.
+        /// </summary>
+        public string campaignName { get; set; }
+        /// <summary>
+        /// Constructs a new Marketing Firm using Dependency Injection. The Marketing firm does not need to know the underlying structure of the Sweepstakes manager, rather that all Marketing Firms can use Sweepstakes managers in the same manner.
+        /// </summary>
+        /// <param name="sweepstakeManager"></param>
+        public MarketingFirm(ISweepstakeManager sweepstakeManager)
+        {
+            _manager = sweepstakeManager;
+        }
+        // TODO if implementing current campaign structure.
+        public MarketingFirm(ISweepstakeManager sweepstakeManager, string markeringFirmName,  string campaignName)
+        {
+            _manager = sweepstakeManager;
+            this.marketingFirmName = marketingFirmName;
+            this.campaignName = campaignName;
+        }
+        /// <summary>
+        /// Creates and inserts a new Sweepstakes into the Sweepstakes manager's underlying data structure.
+        /// </summary>
+        public void CreateSweepstakes()
+        {
+            // Logic to create parameters of Sweepstakes.
+            // Placeholder
+            Sweepstakes sweepstakes = new Sweepstakes();
+
+            _manager.InsertSweepstakes(sweepstakes);
+        }
+
     }
 }
