@@ -8,5 +8,9 @@ namespace SweepstakesProject
 {
     public interface ISweepstakeManager
     {
+        void InsertSweepstakes(Sweepstakes sweepstakes);
+
+        Sweepstakes GetSweepstakes();
+
     }
 }
