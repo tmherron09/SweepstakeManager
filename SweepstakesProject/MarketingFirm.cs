@@ -40,11 +40,17 @@ namespace SweepstakesProject
         /// </summary>
         public void CreateSweepstakes()
         {
-            // Logic to create parameters of Sweepstakes.
-            // Placeholder
-            Sweepstakes sweepstakes = new Sweepstakes();
+            string sweepstakesName;
+            do
+            {
+                sweepstakesName = UI.GetInputFor("Please enter the name for the Sweepstakes:");
+                UI.DisplayText(sweepstakesName);
+            } while (!UI.GetInputYesNo("Are you satisfied with this name?"));
 
+            Sweepstakes sweepstakes = new Sweepstakes(sweepstakesName);
             _manager.InsertSweepstakes(sweepstakes);
+            UI.DisplayText($"New Sweepstakes {sweepstakes.Name} has been successfully added!");
+        
         }
 
     }

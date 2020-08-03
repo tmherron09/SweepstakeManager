@@ -11,7 +11,7 @@ namespace SweepstakesProject
         Stack<Sweepstakes> stack;
 
         /// <summary>
-        /// Constructs a new Sweepstakes Manager with an underlying <see cref="stack"/>
+        /// Constructs a new Sweepstakes Manager with an underlying data structure Stack&lt;Sweepstakes&gt;
         /// </summary>
         public SweepstakesStackManager()
         {
@@ -19,7 +19,7 @@ namespace SweepstakesProject
         }
 
         /// <summary>
-        /// Returns the current sweepstakes. Does not remove from the Stack.
+        /// Returns the current sweepstakes (at top of stack.) Does not remove from the Stack.
         /// </summary>
         /// <returns>Current <see cref="Sweepstakes"/></returns>
         public Sweepstakes GetSweepstakes()
