@@ -16,7 +16,7 @@ namespace SweepstakesProject
         /// <summary>
         /// Main Application Logic. Call this method to start Sweepstakes Manager
         /// </summary>
-        private void Run()
+        public void Run()
         {
             WelcomeMessage();
 
@@ -51,13 +51,13 @@ namespace SweepstakesProject
                 case "v":
                 case "view current sweepstakes":
                 case "1":
-                    
+                    marketingFirm.SweepstakesEmployeeMenu();
                     Menu();
                     break;
                 case "n":
                 case "add new sweepstakes":
                 case "2":
-                    AddSweepstakesToCampaign()
+                    AddSweepstakesToCampaign();
                     Menu();
                     break;
                 case "s":
