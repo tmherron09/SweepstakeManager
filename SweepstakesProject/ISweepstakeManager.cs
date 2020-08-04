@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-
-namespace SweepstakesProject
+﻿namespace SweepstakesProject
 {
     /// <summary>
     /// Interface defining the basic methods all Sweepstakes Managers should implement. Allows for Marketing Firms to recieve any Sweepstakes Manager implementing this interface.
@@ -26,7 +19,7 @@ namespace SweepstakesProject
         /// <summary>
         /// Method to end a sweepstakes. Removes Sweepstakes from SweepstakesManager Collection and calls methods needed to complete a sweepstakes.
         /// </summary>
-        Contestant EndSweepstakes();
+        void EndSweepstakes();
 
     }
 }

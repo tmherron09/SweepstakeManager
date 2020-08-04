@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace SweepstakesProject
 {
@@ -39,7 +34,7 @@ namespace SweepstakesProject
         /// <param name="sweepstakeManager">SweepstakesManager implementing ISweepstakesManager</param>
         /// <param name="marketingFirmName">Name of Marketing Firm</param>
         /// <param name="campaignName">Name of Current Sweepstakes Campaign.</param>
-        public MarketingFirm(ISweepstakeManager sweepstakeManager, string marketingFirmName,  string campaignName)
+        public MarketingFirm(ISweepstakeManager sweepstakeManager, string marketingFirmName, string campaignName)
         {
             _manager = sweepstakeManager;
             this.MarketingFirmName = marketingFirmName;
@@ -91,8 +86,12 @@ namespace SweepstakesProject
                     PrintAllContestantInfo();
                     SweepstakesEmployeeMenu();
                     break;
+                case "e":
+                case "end sweepstakes":
                 case "3":
+                    LogIntoEmailServer();
                     _manager.EndSweepstakes();
+                    EmailClient.EndEmailBlast();
                     break;
                 case "m":
                 case "return to main menu":
@@ -121,7 +120,7 @@ namespace SweepstakesProject
         /// </summary>
         private void PrintAllContestantInfo()
         {
-            foreach(Contestant contestant in _manager.GetSweepstakes())
+            foreach (Contestant contestant in _manager.GetSweepstakes())
             {
                 _manager.GetSweepstakes().PrintContestantInfo(contestant);
 
@@ -131,14 +130,21 @@ namespace SweepstakesProject
         /// Called from a Sweepstakes once a winner has been picked. Notifys Marketing Firm to contact the Winner directly.
         /// </summary>
         /// <param name="sweepstakesName">Name of Sweepstakes that has Ended.</param>
+        /// <param name="nextSweepstakesName">Name of Next Sweepstakes from Sweepstakes Manager.</param>
         /// <param name="winner">Winner of Sweepstakes</param>
-        public void Notify(string sweepstakesName, Contestant winner)
+        public void Notify(string sweepstakesName, string nextSweepstakesName, Contestant winner)
         {
-            // Send special email to Winner!
-            Console.BackgroundColor = ConsoleColor.Red;
-            Console.ForegroundColor = ConsoleColor.Black;
-            Console.WriteLine($"Congratulations {winner.FirstName} {winner.LastName}!!! You are the big winner of our {sweepstakesName} Sweepstakes!\n To Claim your prize please contact us ASAP!");
-            Console.ResetColor();
+            EmailClient.WinnerOfSweepstakes(sweepstakesName, winner, nextSweepstakesName);
+        }
+        /// <summary>
+        /// Requests an email and password for logging into Email Server. Currently only supports Gmail accounts with less secure apps enabled.
+        /// </summary>
+        public void LogIntoEmailServer()
+        {
+            UI.DisplayText("*ONLY ACCEPTING GMAIL ACCOUNTS WITH UNSECURED APPS ENABLED*");
+            string logingEmail = UI.GetInputFor("Please enter your email Address:");
+            string loginPassword = UI.GetInputFor("Please enter your password: ");
+            EmailClient.InitializeEmailClient(MarketingFirmName, logingEmail, loginPassword);
         }
     }
 }

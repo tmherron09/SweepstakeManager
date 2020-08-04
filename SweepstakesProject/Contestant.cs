@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace SweepstakesProject
 {
@@ -29,7 +24,6 @@ namespace SweepstakesProject
         /// Registration number of Contestant in a Sweepstakes.
         /// </summary>
         public int RegistrationNumber { get; private set; }
-
         /// <summary>
         /// Constructor for a new Contestant for Registration in Sweepstakes.
         /// </summary>
@@ -49,12 +43,10 @@ namespace SweepstakesProject
         /// </summary>
         /// <param name="sweepstakesName">Name of Sweepstakes Contestant is registered in.</param>
         /// <param name="winner">Winning Contestant.</param>
-        public void Notify(string sweepstakesName, Contestant winner)
+        /// <param name="nextSweepstakesName">Name of Next Sweepstakes from Sweepstakes Manager.</param>
+        public void Notify(string sweepstakesName, string nextSweepstakesName, Contestant winner)
         {
-            Console.BackgroundColor = ConsoleColor.DarkYellow;
-            Console.ForegroundColor = ConsoleColor.Black;
-            Console.WriteLine($"{FirstName} has been notified that {winner.FirstName} won the {sweepstakesName} Sweepstakes!");
-            Console.ResetColor();
+            EmailClient.EndOfSweepstakes(sweepstakesName, winner, EmailAddress, FirstName, LastName, nextSweepstakesName);
         }
     }
 }

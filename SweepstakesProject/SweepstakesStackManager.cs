@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace SweepstakesProject
 {
+    /// <summary>
+    /// Sweepstakes Manager utilizing a Stack Collection as its underlying data source.
+    /// </summary>
     [Serializable]
     public class SweepstakesStackManager : ISweepstakeManager
     {
+        /// <summary>
+        /// SweepstakesStackManager underlying Collection storing all Sweepstakes of the Marketing Firm.
+        /// </summary>
         Stack<Sweepstakes> stack;
 
         /// <summary>
@@ -19,7 +21,6 @@ namespace SweepstakesProject
         {
             stack = new Stack<Sweepstakes>();
         }
-
         /// <summary>
         /// Returns the current sweepstakes (at top of stack.) Does not remove from the Stack.
         /// </summary>
@@ -37,13 +38,22 @@ namespace SweepstakesProject
             stack.Push(sweepstakes);
         }
         /// <summary>
-        /// Ends the current Sweepstakes found at the top of the stack and removes it.
+        /// Ends the current Sweepstakes found at the top of the stack and removes it. Calls the Ending Sweepstakes to Pick its Winner.
         /// </summary>
-        public Contestant EndSweepstakes()
+        public void EndSweepstakes()
         {
-            Contestant winner = GetSweepstakes().PickWinner();
-            stack.Pop();
-            return winner;
+            Sweepstakes endingSweepstakes = stack.Pop();
+            string nextSweepstakesName;
+            if (stack.Count > 0)
+            {
+                nextSweepstakesName = stack.Peek().Name;
+            }
+            else
+            {
+                nextSweepstakesName = "*To be Announced*";
+            }
+            endingSweepstakes.PickWinner(nextSweepstakesName);
+
         }
     }
 }

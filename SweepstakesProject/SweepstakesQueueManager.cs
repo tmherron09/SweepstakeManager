@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace SweepstakesProject
 {
+    /// <summary>
+    /// Sweepstakes Manager utilizing a Queue Collection as its underlying data source.
+    /// </summary>
     [Serializable]
     public class SweepstakesQueueManager : ISweepstakeManager
     {
+        /// <summary>
+        /// SweepstakesQueueManager underlying Collection storing all Sweepstakes of the Marketing Firm.
+        /// </summary>
         Queue<Sweepstakes> queue;
 
         /// <summary>
@@ -19,7 +21,6 @@ namespace SweepstakesProject
         {
             queue = new Queue<Sweepstakes>();
         }
-
         /// <summary>
         /// Inserts a new Sweepstakes at the back of the Queue.
         /// </summary>
@@ -37,13 +38,24 @@ namespace SweepstakesProject
             return queue.Peek();
         }
         /// <summary>
-        /// Ends the current sweepstakes and removes from Queue. Returns winner of the Sweepstakes.
+        /// Ends the current sweepstakes and removes from Queue. Calls the Ending Sweepstakes to Pick its Winner.
         /// </summary>
-        public Contestant EndSweepstakes()
+        public void EndSweepstakes()
         {
-            Contestant winner = GetSweepstakes().PickWinner();
-            queue.Dequeue();
-            return winner;
+            Sweepstakes endingSweepstakes = queue.Dequeue();
+            string nextSweepstakesName;
+            if(queue.Count >0)
+            {
+                nextSweepstakesName = queue.Peek().Name;
+            }
+            else
+            {
+                nextSweepstakesName = "*To be Announced*";
+            }
+
+            endingSweepstakes.PickWinner(nextSweepstakesName);
+            
+            
         }
 
     }
